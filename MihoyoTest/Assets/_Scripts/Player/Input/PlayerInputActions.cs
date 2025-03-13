@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @PlayerInputActions: IInputActionCollection2, System.IDisposable
+public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
     public @PlayerInputActions()
@@ -58,6 +58,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""5363353d-835f-4e09-9764-f1952334cb32"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reflect"",
+                    ""type"": ""Button"",
+                    ""id"": ""1330d242-e2aa-4fd9-be18-7aaff8290eef"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -152,6 +161,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8c1bdd8-12af-40e9-8b8a-83ad79d483ca"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reflect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
         m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+        m_Gameplay_Reflect = m_Gameplay.FindAction("Reflect", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -234,6 +255,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
     private readonly InputAction m_Gameplay_Look;
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Jump;
+    private readonly InputAction m_Gameplay_Reflect;
     public struct GameplayActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -242,6 +264,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
         public InputAction @Look => m_Wrapper.m_Gameplay_Look;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
+        public InputAction @Reflect => m_Wrapper.m_Gameplay_Reflect;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +286,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Reflect.started += instance.OnReflect;
+            @Reflect.performed += instance.OnReflect;
+            @Reflect.canceled += instance.OnReflect;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -279,6 +305,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Reflect.started -= instance.OnReflect;
+            @Reflect.performed -= instance.OnReflect;
+            @Reflect.canceled -= instance.OnReflect;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -302,5 +331,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, System.IDispo
         void OnLook(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnReflect(InputAction.CallbackContext context);
     }
 }

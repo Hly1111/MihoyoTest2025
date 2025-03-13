@@ -20,6 +20,8 @@ public class StateReusableData
     private Vector3 _currentTargetRotation;
     private Vector3 _dampedTargetRotationCurrentVelocity;
     private Vector3 _dampedTargetRotationSmoothTime;
+
+    private Vector3 _hitDirection;
     
     public StateReusableData(PlayerDataSO playerDataSO)
     {
@@ -37,6 +39,8 @@ public class StateReusableData
         _currentTargetRotation = Vector3.zero;
         _dampedTargetRotationCurrentVelocity = Vector3.zero;
         _dampedTargetRotationSmoothTime = Vector3.zero;
+        
+        _hitDirection = Vector3.zero;
     }
     
     public ref float BaseSpeed => ref _baseSpeed;
@@ -53,4 +57,6 @@ public class StateReusableData
     public ref Vector3 CurrentTargetRotation => ref _currentTargetRotation;
     public ref Vector3 DampedTargetRotationCurrentVelocity => ref _dampedTargetRotationCurrentVelocity;
     public ref Vector3 DampedTargetRotationSmoothTime => ref _dampedTargetRotationSmoothTime;
+    
+    public ref Vector3 HitDirection => ref _hitDirection;
 }

@@ -22,6 +22,13 @@ public class AnimationData
     [SerializeField] private string jumpLoopParameter = "IsJumpLoop";
     [SerializeField] private string jumpEndParameter = "IsJumpEnd";
     
+    [SerializeField] private string hitParameter = "IsHit";
+    [SerializeField] private string hitDirectionParameter = "HitDirection";
+    
+    [SerializeField] private string reflectionParameter = "Reflection";
+    [SerializeField] private string blockParameter = "IsBlock";
+    [SerializeField] private string killParameter = "IsKill";
+    
     public int GroundParameter { get; private set; }
     public int MovementParameter { get; private set; }
     public int AttackParameter { get; private set; }
@@ -38,6 +45,13 @@ public class AnimationData
     public int JumpStartParameter { get; private set; }
     public int JumpLoopParameter { get; private set; }
     public int JumpEndParameter { get; private set; }
+    
+    public int HitParameter { get; private set; }
+    public int HitDirectionParameter { get; private set; }
+    
+    public int ReflectionParameter { get; private set; }
+    public int BlockParameter { get; private set; }
+    public int KillParameter { get; private set; }
     
     public void Initialize(Animator animator)
     {
@@ -56,5 +70,12 @@ public class AnimationData
         JumpStartParameter = Animator.StringToHash(jumpStartParameter);
         JumpLoopParameter = Animator.StringToHash(jumpLoopParameter);
         JumpEndParameter = Animator.StringToHash(jumpEndParameter);
+        
+        HitParameter = Animator.StringToHash(hitParameter);
+        HitDirectionParameter = Animator.StringToHash(hitDirectionParameter);
+        
+        ReflectionParameter = Animator.StringToHash(reflectionParameter);
+        BlockParameter = Animator.StringToHash(blockParameter);
+        KillParameter = Animator.StringToHash(killParameter);
     }
 }

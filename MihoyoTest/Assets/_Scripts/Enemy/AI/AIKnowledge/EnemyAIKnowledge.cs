@@ -1,40 +1,35 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class EnemyAIKnowledge : IDisposable
 {
-    public EnemyAIController AIController;
-    [field: SerializeField] public bool ShouldMove;
-    [field: SerializeField] public bool ShouldAttack;
-    [field: SerializeField] public EnemyTargetKnowledge TargetKnowledge;
-    [field: SerializeField] public EnemyPathKnowledge PathKnowledge;
+    public EnemyAIController aiController;
+    [field: SerializeField] public EnemyTargetKnowledge targetKnowledge;
+    [field: SerializeField] public EnemyPathKnowledge pathKnowledge;
 
-    public void Initialize(PlayerController target, EnemyAIController enemyAIController)
+    public void Initialize(EnemyAIController enemyAIController)
     {
-        ShouldMove = false;
-        ShouldAttack = false;
-        AIController = enemyAIController;
+        aiController = enemyAIController;
         
-        TargetKnowledge = new EnemyTargetKnowledge();
-        TargetKnowledge.Initialize();
+        targetKnowledge = new EnemyTargetKnowledge();
+        targetKnowledge.Initialize();
         
-        PathKnowledge = new EnemyPathKnowledge();
-        PathKnowledge.Initialize(AIController.transform.root.GetComponent<NavMeshAgent>());
+        pathKnowledge = new EnemyPathKnowledge();
+        pathKnowledge.Initialize(aiController.transform.root.GetComponent<NavMeshAgent>());
     }
 
     
     public void Dispose()
     {
-        AIController = null;
-        ShouldMove = false;
-        ShouldAttack = false;
+        aiController = null;
         
-        TargetKnowledge.Dispose();
-        TargetKnowledge = null;
+        targetKnowledge.Dispose();
+        targetKnowledge = null;
         
-        PathKnowledge.Dispose();
-        PathKnowledge = null;
+        pathKnowledge.Dispose();
+        pathKnowledge = null;
     }
 }

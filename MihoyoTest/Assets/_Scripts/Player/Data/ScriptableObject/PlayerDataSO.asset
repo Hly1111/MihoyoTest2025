@@ -15,9 +15,11 @@ MonoBehaviour:
   baseSpeed: 5
   speedModifier: 1
   timeToReachTargetRotation: {x: 0, y: 0.14, z: 0}
+  movementDecelerationForce: 0.5
   jumpForce: {x: 0, y: 5, z: 0}
   jumpModifier: 3.5
   inAirTimeToReachTargetRotation: {x: 0, y: 0.02, z: 0}
-  attackForce: 3
+  fallLimitSpeed: 10
+  attackForce: 1
   downRaycastDistance: 2
   floatForce: 30

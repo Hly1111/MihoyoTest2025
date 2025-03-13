@@ -7,47 +7,13 @@ public class PlayerState : IState
     protected readonly PlayerStateMachine PlayerStateMachine;
     
     protected Vector2 MovementInput;
+
+    private bool _isPreinputBinded;
     
     protected PlayerState(PlayerStateMachine playerStateMachine)
     {
         PlayerStateMachine = playerStateMachine;
     }
-    
-    # region input callbacks
-    protected virtual void AddInputCallbacks()
-    {
-        
-    }
-    
-    protected virtual void RemoveInputCallbacks()
-    {
-        
-    }
-
-    protected virtual void AddPreInputCallback()
-    {
-        if (PlayerStateMachine.Player.PlayerInput.GameplayActions.Move.IsPressed())
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.RunningState);
-        }
-        else if (PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.IsPressed())
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.JumpStartState);
-        }
-        else
-        {
-            PlayerStateMachine.Player.PlayerInput.GameplayActions.Move.performed += MoveCallback;
-            PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed += JumpCallback;
-        }
-    }
-    
-    protected virtual void RemovePreInputCallback()
-    {
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Move.performed -= MoveCallback;
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed -= JumpCallback;
-    }
-    
-    #endregion 
     
     #region animation
     protected virtual void StartAnimation(int animationHash)
@@ -59,17 +25,6 @@ public class PlayerState : IState
     {
         PlayerStateMachine.Player.Animator.SetBool(animationHash, false);
     }
-    
-    protected virtual void AddAnimEvent(EAnimNotify animNotifyType, UnityAction animEvent)
-    {
-        PlayerStateMachine.Player.AnimationEventHandler.AddEventToData(animNotifyType, animEvent);
-    }
-    
-    protected virtual void RemoveAnimEvent(EAnimNotify animNotifyType, UnityAction animEvent)
-    {
-        PlayerStateMachine.Player.AnimationEventHandler.RemoveEventFromData(animNotifyType, animEvent);
-    }
-    
     #endregion
     
     #region reusable methods
@@ -138,9 +93,37 @@ public class PlayerState : IState
         PlayerStateMachine.Player.Rigidbody.angularVelocity = Vector3.zero;
     }
     
+    protected void ResetHorizontalVelocity()
+    {
+        PlayerStateMachine.Player.Rigidbody.linearVelocity = new Vector3(0, PlayerStateMachine.Player.Rigidbody.linearVelocity.y, 0);
+        PlayerStateMachine.Player.Rigidbody.angularVelocity = Vector3.zero;
+    }
+    
     protected Vector3 GetPlayerVerticalVelocity()
     {
         return PlayerStateMachine.Player.Rigidbody.linearVelocity.y * Vector3.up;
+    }
+    
+    protected void Float()
+    {
+        Vector3 heightInWorldSpace =
+            PlayerStateMachine.Player.CapsuleColliderHandler.CapsuleColliderData.CapsuleCollider.bounds.center;
+        Ray downwardRaycast = new Ray(heightInWorldSpace, Vector3.down);
+        if(Physics.Raycast(downwardRaycast, out RaycastHit hit, PlayerStateMachine.ReusableData.DownRaycastDistance, PlayerStateMachine.Player.LayerUtility.GroundLayer, QueryTriggerInteraction.Ignore))
+        {
+            float distanceToFloatingPoint =
+                PlayerStateMachine.Player.CapsuleColliderHandler.CapsuleColliderData.LocalSpaceCenter.y
+                * PlayerStateMachine.Player.Rigidbody.gameObject.transform.localScale.y - hit.distance;
+            if (Mathf.Approximately(distanceToFloatingPoint, 0))
+            {
+                return;
+            }
+            float targetVelocity = PlayerStateMachine.ReusableData.FloatForce * distanceToFloatingPoint - GetPlayerVerticalVelocity().y;
+            targetVelocity = Mathf.Lerp(targetVelocity, PlayerStateMachine.ReusableData.FloatForce * distanceToFloatingPoint, Time.fixedDeltaTime / 0.05f);
+
+            Vector3 liftForce = targetVelocity * Vector3.up;
+            PlayerStateMachine.Player.Rigidbody.AddForce(liftForce, ForceMode.VelocityChange);
+        }
     }
     
     #endregion
@@ -169,6 +152,7 @@ public class PlayerState : IState
         return directionAngle;
     }
     
+    #region interface methods
     public virtual void Enter()
     {
     }
@@ -176,6 +160,12 @@ public class PlayerState : IState
     public virtual void Update()
     {
         HandleInput();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayerStateMachine.ReusableData.HitDirection = Random.insideUnitCircle;
+            PlayerStateMachine.ChangeState(PlayerStateMachine.HitState);
+        }
     }
 
     public virtual void FixedUpdate()
@@ -201,17 +191,9 @@ public class PlayerState : IState
             LeaveGroundCallback(collider);
         }
     }
+    #endregion
 
-    #region callback methods
-    protected void MoveCallback(InputAction.CallbackContext context)
-    {
-        PlayerStateMachine.ChangeState(PlayerStateMachine.RunningState);
-    }
-    
-    protected void JumpCallback(InputAction.CallbackContext context)
-    {
-        PlayerStateMachine.ChangeState(PlayerStateMachine.JumpStartState);
-    }
+    #region collider callback methods
     
     protected virtual void ContactGroundCallback(Collider collider)
     {
@@ -221,6 +203,73 @@ public class PlayerState : IState
     protected virtual void LeaveGroundCallback(Collider collider)
     {
         
+    }
+    
+    
+    #endregion
+    
+    
+    #region input callbacks
+    
+    protected virtual void AddInputCallbacks()
+    {
+        
+    }
+    
+    protected virtual void RemoveInputCallbacks()
+    {
+        
+    }
+
+    protected void MoveCallback(InputAction.CallbackContext obj)
+    {
+        PlayerStateMachine.ChangeState(PlayerStateMachine.RunningState);
+    }
+
+    protected void JumpCallback(InputAction.CallbackContext obj)
+    {
+        PlayerStateMachine.ChangeState(PlayerStateMachine.JumpStartState);
+    }
+
+    protected void AttackCallback(InputAction.CallbackContext obj)
+    {
+        PlayerStateMachine.ChangeState(PlayerStateMachine.AttackOneState);
+    }
+
+    protected void ReflectCallback(InputAction.CallbackContext obj)
+    {
+        PlayerStateMachine.ChangeState(PlayerStateMachine.BlockState);
+    }
+    
+    public void AddPreInputCallback()
+    {
+        if (!_isPreinputBinded)
+        {
+            if (PlayerStateMachine.Player.PlayerInput.GameplayActions.Move.IsPressed())
+            {
+                PlayerStateMachine.ChangeState(PlayerStateMachine.RunningState);
+            }
+            else if (PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.IsPressed())
+            {
+                PlayerStateMachine.ChangeState(PlayerStateMachine.JumpStartState);
+            }
+            else
+            {
+                PlayerStateMachine.Player.PlayerInput.GameplayActions.Move.performed += MoveCallback;
+                PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed += JumpCallback;
+            }
+        }
+        _isPreinputBinded = true;
+    }
+
+    public void RemovePreInputCallback()
+    {
+        if (_isPreinputBinded)
+        {
+            PlayerStateMachine.Player.PlayerInput.GameplayActions.Move.performed -= MoveCallback;
+            PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed -= JumpCallback;
+        }
+        _isPreinputBinded = false;
     }
     #endregion
 }

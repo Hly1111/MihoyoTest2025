@@ -18,7 +18,10 @@ public enum EAnimNotify
     OnJumpEndStartPreInput,
     OnJumpEndEnd,
     OnRunEndStartPreInput,
-    OnRunEndEnd
+    OnRunEndEnd,
+    OnHitEnd,
+    OnBlockStart,
+    OnBlockEnd
 }
 
 public class AnimEventData

@@ -2,31 +2,38 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class EnemyPathKnowledge : IDisposable
 {
-    [field: SerializeField] public NavMeshAgent NavMeshAgent;
+    [field: SerializeField] public NavMeshAgent navMeshAgent;
+    [field: SerializeField] public bool shouldMove;
+    [field: SerializeField] public bool canMove;
 
-    public void Initialize(NavMeshAgent navMeshAgent)
+    public void Initialize(NavMeshAgent agent)
     {
-        NavMeshAgent = navMeshAgent;
+        navMeshAgent = agent;
+        shouldMove = false;
+        canMove = false;
     }
     
     public void Dispose()
     {
-        NavMeshAgent = null;
+        navMeshAgent = null;
+        shouldMove = false;
+        canMove = false;
     }
     
-    public bool IsStopped => NavMeshAgent.isStopped;
+    public bool IsStopped => navMeshAgent.isStopped;
     
-    public Vector3 Destination => NavMeshAgent.destination;
+    public Vector3 Destination => navMeshAgent.destination;
     
-    public float RemainingDistance => NavMeshAgent.remainingDistance;
+    public float RemainingDistance => navMeshAgent.remainingDistance;
     
-    public bool HasPath => NavMeshAgent.hasPath;
+    public bool HasPath => navMeshAgent.hasPath;
     
-    public bool PathPending => NavMeshAgent.pathPending;
+    public bool PathPending => navMeshAgent.pathPending;
     
-    public Vector3 Velocity => NavMeshAgent.velocity;
+    public Vector3 Velocity => navMeshAgent.velocity;
 }

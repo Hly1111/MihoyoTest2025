@@ -10,28 +10,12 @@ public class PlayerRunEndState: PlayerMovementState
         base.Enter();
         PlayerStateMachine.ReusableData.SpeedModifier = 0f;
         ResetVelocity();
-        
-        AddAnimEvent(EAnimNotify.OnRunEndStartPreInput,AnimEvent_OnRunEndStartPreInput);
-        AddAnimEvent(EAnimNotify.OnRunEndEnd,AnimEvent_OnRunEndEnd);
         StartAnimation(PlayerStateMachine.Player.AnimationData.RunEndParameter);
     }
 
     public override void Exit()
     {
         base.Exit();
-        RemoveAnimEvent(EAnimNotify.OnRunEndStartPreInput,AnimEvent_OnRunEndStartPreInput);
-        RemoveAnimEvent(EAnimNotify.OnRunEndEnd,AnimEvent_OnRunEndEnd);
         StopAnimation(PlayerStateMachine.Player.AnimationData.RunEndParameter);
-    }
-
-    private void AnimEvent_OnRunEndStartPreInput()
-    {
-        AddPreInputCallback();
-    }
-    
-    private void AnimEvent_OnRunEndEnd()
-    {
-        RemovePreInputCallback();
-        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
     }
 }

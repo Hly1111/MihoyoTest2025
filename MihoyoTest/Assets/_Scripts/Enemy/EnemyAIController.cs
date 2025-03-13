@@ -5,12 +5,11 @@ using UnityEngine;
 public class EnemyAIController : MonoBehaviour, IController, IPoolObject
 {
     private EnemyStateMachine _enemyStateMachine;
-    private readonly EnemyPathUpdater _enemyPathUpdater = new EnemyPathUpdater();
-    private readonly EnemyTargetUpdater _enemyTargetUpdater = new EnemyTargetUpdater();
+    public readonly EnemyPathPerception EnemyPathPerception = new EnemyPathPerception();
+    public readonly EnemyTargetPerception EnemyTargetPerception = new EnemyTargetPerception();
     
     public Animator Animator { get; private set; }
     [field: SerializeField] public EnemyAIKnowledge EnemyAIKnowledge{ get; private set; }
-    [field: SerializeField] public PlayerController Target { get; private set; }
     [field: SerializeField] public EnemyAIData EnemyAIData { get; private set; }
     [field: SerializeField] public EnemyAnimationData EnemyAnimationData { get; private set; }
     
@@ -38,34 +37,26 @@ public class EnemyAIController : MonoBehaviour, IController, IPoolObject
         EnemyAIKnowledge.Dispose();
         EnemyAIKnowledge = null;
         
-        _enemyPathUpdater.Clear();
-        _enemyTargetUpdater.Clear();
+        EnemyPathPerception.Clear();
+        EnemyTargetPerception.Clear();
     }
 
     private void Initialize()
     {
         EnemyAIKnowledge = new EnemyAIKnowledge();
-        EnemyAIKnowledge.Initialize(Target,this);
-        _enemyPathUpdater.Initialize(EnemyAIKnowledge);
-        _enemyTargetUpdater.Initialize(EnemyAIKnowledge);
+        EnemyAIKnowledge.Initialize(this);
+        EnemyPathPerception.Initialize(EnemyAIKnowledge);
+        EnemyTargetPerception.Initialize(EnemyAIKnowledge);
     }
 
     private void Update()
     {
-        _enemyTargetUpdater.UpdateDecision();
-        _enemyPathUpdater.UpdateDecision();
-        
         _enemyStateMachine.Update();
     }
 
     private void FixedUpdate()
     {
         _enemyStateMachine.FixedUpdate();
-    }
-
-    public Transform GetTransform()
-    {
-        return transform;
     }
 
     public void OnTriggerEnter(Collider other)

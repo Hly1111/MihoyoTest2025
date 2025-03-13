@@ -21,7 +21,7 @@ public class EnemyPatrolState : EnemyMovementState
     public override void Update()
     {
         base.Update();
-        if (!EnemyStateMachine.EnemyAIController.EnemyAIKnowledge.ShouldMove)
+        if (!EnemyStateMachine.EnemyAIController.EnemyAIKnowledge.pathKnowledge.shouldMove)
         {
             EnemyStateMachine.ChangeState(EnemyStateMachine.EnemyIdleState);
         }

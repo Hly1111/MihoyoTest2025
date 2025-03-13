@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovementState : PlayerGroundState
 {
@@ -29,26 +30,25 @@ public class PlayerMovementState : PlayerGroundState
     
     #endregion
     
-    #region events
+    #region input callbacks
     protected override void AddInputCallbacks()
     {
         base.AddInputCallbacks();
         PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed += AttackCallback;
 
         PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed += JumpCallback;
+        
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Reflect.performed += ReflectCallback;
     }
-    
+
     protected override void RemoveInputCallbacks()
     {
         base.RemoveInputCallbacks();
         PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed -= AttackCallback;
         
         PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed -= JumpCallback;
-    }
-    
-    protected virtual void AttackCallback(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        PlayerStateMachine.ChangeState(PlayerStateMachine.AttackOneState);
+        
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Reflect.performed -= AttackCallback;
     }
     
     #endregion
@@ -65,7 +65,7 @@ public class PlayerMovementState : PlayerGroundState
         PlayerStateMachine.Player.Rigidbody.AddForce(moveSpeed * direction - currentVelocity, ForceMode.VelocityChange);
     }
 
-    protected float GetMoveSpeed()
+    private float GetMoveSpeed()
     {
         return PlayerStateMachine.ReusableData.BaseSpeed * PlayerStateMachine.ReusableData.SpeedModifier;
     }

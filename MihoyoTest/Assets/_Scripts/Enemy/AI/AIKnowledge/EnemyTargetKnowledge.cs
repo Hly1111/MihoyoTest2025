@@ -1,25 +1,29 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class EnemyTargetKnowledge : IDisposable
 {
-    [field: SerializeField] public Vector3 TargetDirection;
-    [field: SerializeField] public float Distance;
-    [field: SerializeField] public bool IsTargetVisible;
+    [field: SerializeField] public PlayerController target;
+    [field: SerializeField] public Vector3 targetDirection;
+    [field: SerializeField] public float distance;
+    [field: SerializeField] public bool isTargetVisible;
     
     public void Initialize()
     {
-        TargetDirection = Vector3.zero;
-        Distance = TargetDirection.magnitude;
-        IsTargetVisible = false;
+        target = null;
+        targetDirection = Vector3.zero;
+        distance = targetDirection.magnitude;
+        isTargetVisible = false;
     }
     
     public void Dispose()
     {
-        TargetDirection = Vector3.zero;
-        Distance = 0;
-        IsTargetVisible = false;
+        target = null;
+        targetDirection = Vector3.zero;
+        distance = 0;
+        isTargetVisible = false;
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttackState : PlayerGroundState
 {
-    protected bool HasAttack;
-    
+    public bool HasAttack;
     protected PlayerAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -13,6 +12,7 @@ public class PlayerAttackState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        ResetVelocity();
         StartAnimation(PlayerStateMachine.Player.AnimationData.AttackParameter);
     }
     
@@ -24,41 +24,15 @@ public class PlayerAttackState : PlayerGroundState
         
         ResetVelocity();
     }
-    
-    protected override void AddInputCallbacks()
-    {
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed += AttackInput;
-    }
-
-    protected override void RemoveInputCallbacks()
-    {
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed -= AttackInput;
-    }
-    
-    
-    protected virtual void AnimEvent_StartReceivingAttack()
-    {
-        AddInputCallbacks();
-    }
-
-    protected virtual void AnimEvent_StopReceivingAttack()
-    {
-        RemoveInputCallbacks();
-    }
-
-    protected virtual void AnimEvent_AnimComplete()
-    {
-        
-    }
-    
-    protected virtual void AttackInput(InputAction.CallbackContext context)
-    {
-        HasAttack = true;
-    }
 
     protected virtual void AddAttackForce()
     {
         Vector3 attackDirection = PlayerStateMachine.Player.Rigidbody.transform.forward;
         PlayerStateMachine.Player.Rigidbody.AddForce(attackDirection * PlayerStateMachine.ReusableData.AttackForce, ForceMode.Impulse);
+    }
+    
+    public void AttackDoneCallback(InputAction.CallbackContext obj)
+    {
+        HasAttack = true;
     }
 }

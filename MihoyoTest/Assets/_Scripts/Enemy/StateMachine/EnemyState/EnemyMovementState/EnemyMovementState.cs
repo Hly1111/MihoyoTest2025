@@ -10,7 +10,6 @@ public class EnemyMovementState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("EnemyMovementState Enter:" + this);
         StartAnimation(EnemyStateMachine.EnemyAIController.EnemyAnimationData.MoveParameter);
     }
     
@@ -18,5 +17,13 @@ public class EnemyMovementState : EnemyState
     {
         base.Exit();
         StopAnimation(EnemyStateMachine.EnemyAIController.EnemyAnimationData.MoveParameter);
+    }
+    
+    public override void Update()
+    {
+        base.Update();
+        
+        EnemyStateMachine.EnemyAIController.EnemyPathPerception.UpdateDecision();
+        EnemyStateMachine.EnemyAIController.EnemyTargetPerception.UpdateDecision();
     }
 }

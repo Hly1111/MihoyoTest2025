@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour, IController
 
     private void Start()
     {
-        AnimationEventHandler.InitializeData();
         _stateMachine.ChangeState(_stateMachine.IdleState);
     }
     
@@ -53,11 +52,6 @@ public class PlayerController : MonoBehaviour, IController
     private void FixedUpdate()
     {
         _stateMachine.FixedUpdate();
-    }
-
-    public Transform GetTransform()
-    {
-        return transform;
     }
 
     public void OnTriggerEnter(Collider other)
