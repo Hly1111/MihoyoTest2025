@@ -19,7 +19,6 @@ public class PlayerAttackState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
-        HasAttack = false;
         StopAnimation(PlayerStateMachine.Player.AnimationData.AttackParameter);
         
         ResetVelocity();

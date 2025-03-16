@@ -18,6 +18,7 @@ public class EnemyPathPerception : EnemyAIBrain
 
     private void HandleMoveCondition()
     {
+        EnemyAIKnowledge.attackKnowledge.canAttack = false;
         if (EnemyAIKnowledge.pathKnowledge.canMove)
         {
             EnemyAIKnowledge.pathKnowledge.shouldMove = EnemyAIKnowledge.targetKnowledge.isTargetVisible;
@@ -26,6 +27,7 @@ public class EnemyPathPerception : EnemyAIBrain
                 if(EnemyAIKnowledge.targetKnowledge.distance <= EnemyAIKnowledge.aiController.EnemyAIData.PatrolRange)
                 {
                     EnemyAIKnowledge.pathKnowledge.shouldMove = false;
+                    EnemyAIKnowledge.attackKnowledge.canAttack = true;
                 }
             }
         }

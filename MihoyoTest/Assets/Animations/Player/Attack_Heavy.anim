@@ -90094,11 +90094,18 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.33333334
-    functionName: AnimEvent_AttackNotify
+    functionName: TriggerEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 4
+    messageOptions: 0
+  - time: 0.4
+    functionName: TriggerEvent
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 19
     messageOptions: 0
   - time: 0.43333334
     functionName: PlayerComboAttackVoiceClip
@@ -90108,7 +90115,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.0666667
-    functionName: AnimEvent_AttackNotify
+    functionName: TriggerEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -90122,7 +90129,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 2.6
-    functionName: AnimEvent_AttackNotify
+    functionName: TriggerEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -16,6 +16,9 @@ public class PlayerHitState : PlayerState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        Vector3 targetDirection = -new Vector3(PlayerStateMachine.ReusableData.HitDirection.x, 0, PlayerStateMachine.ReusableData.HitDirection.z);
+        UpdateTargetRotation(CalculateHitDirection() == 1 ? -targetDirection : targetDirection, false);
+        RotateTowardsTargetRotation();
         Float();
     }
 

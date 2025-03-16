@@ -24,6 +24,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerHitState HitState { get; }
     
     public PlayerBlockState BlockState { get; }
+    public PlayerWaitForKillState WaitForKillState { get; }
     public PlayerKillState KillState { get; }
 
     public PlayerStateMachine(PlayerController player)
@@ -46,42 +47,20 @@ public class PlayerStateMachine : StateMachine
         HitState = new PlayerHitState(this);
         
         BlockState = new PlayerBlockState(this);
+        WaitForKillState = new PlayerWaitForKillState(this);
         KillState = new PlayerKillState(this);
         
-        BindAllAnimEvents();
+        BindAllEvents();
     }
 
-    private void BindAllAnimEvents()
+    private void BindAllEvents()
     {
-        Player.AnimationEventHandler.InitializeData();
-        foreach (EAnimNotify notify in Enum.GetValues(typeof(EAnimNotify)))
-        {
-            string methodName = $"AnimEvent_{notify}";
-            MethodInfo method = GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
-            if (method != null)
-            {
-                UnityAction eventDelegate = (UnityAction)Delegate.CreateDelegate(typeof(UnityAction), this, method);
-                Player.AnimationEventHandler.AddEventToData(notify, eventDelegate);
-            }
-            else
-            {
-                Debug.LogWarning("Fail to bound " + methodName);
-            }
-        }
+        Player.PlayerAnimEventHandler.BindAllAnimEvents(this);
     }
     
-    private void UnbindAllAnimEvents()
+    private void UnbindAllEvents()
     {
-        foreach (EAnimNotify notify in Enum.GetValues(typeof(EAnimNotify)))
-        {
-            string methodName = $"AnimEvent_{notify}";
-            MethodInfo method = GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
-            if (method != null)
-            {
-                UnityAction eventDelegate = (UnityAction)Delegate.CreateDelegate(typeof(UnityAction), this, method);
-                Player.AnimationEventHandler.RemoveEventFromData(notify, eventDelegate);
-            }
-        }
+        Player.PlayerAnimEventHandler.UnbindAllAnimEvents(this);
     }
     
     #region AttackOneState
@@ -101,8 +80,16 @@ public class PlayerStateMachine : StateMachine
     
     private void AnimEvent_OnAttackOneEnd()
     {
-        if(!AttackOneState.HasAttack)
+        if (!AttackOneState.HasAttack)
+        {
             ChangeState(IdleState);
+        }
+        AttackOneState.HasAttack = false;
+    }
+
+    private void AnimEvent_OnAttackOneEffect()
+    {
+        Player.VfxDataHandler.PlayVfx(EVfxType.AttackOne);
     }
     #endregion
     
@@ -124,8 +111,16 @@ public class PlayerStateMachine : StateMachine
     
     private void AnimEvent_OnAttackTwoEnd()
     {
-        if(!AttackTwoState.HasAttack)
+        if (!AttackTwoState.HasAttack)
+        {
             ChangeState(IdleState);
+        }
+        AttackTwoState.HasAttack = false;
+    }
+    
+    private void AnimEvent_OnAttackTwoEffect()
+    {
+        Player.VfxDataHandler.PlayVfx(EVfxType.AttackTwo);
     }
     
     #endregion
@@ -149,8 +144,16 @@ public class PlayerStateMachine : StateMachine
     
     private void AnimEvent_OnAttackThreeEnd()
     {
-        if(!AttackHeavyState.HasAttack)
+        if (!AttackHeavyState.HasAttack)
+        {
             ChangeState(IdleState);
+        }
+        AttackHeavyState.HasAttack = false;
+    }
+    
+    private void AnimEvent_OnAttackThreeEffect()
+    {
+        Player.VfxDataHandler.PlayVfx(EVfxType.AttackThree);
     }
     
     #endregion
@@ -195,14 +198,23 @@ public class PlayerStateMachine : StateMachine
     
     #region BlockState
     
-    private void AnimEvent_OnBlockStart()
+    private void AnimEvent_OnBlockStartInput()
     {
-        
+        BlockState.CanBlock = true;
+    }
+    
+    private void AnimEvent_OnBlockEndInput()
+    {
+        BlockState.CanBlock = false;
     }
     
     private void AnimEvent_OnBlockEnd()
     {
-        ChangeState(IdleState);
+        if(!BlockState.IsBlocked)
+        {
+            ChangeState(IdleState);
+        }
+        BlockState.IsBlocked = false;
     }
     
     #endregion

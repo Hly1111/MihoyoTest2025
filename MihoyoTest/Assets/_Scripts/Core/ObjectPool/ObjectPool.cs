@@ -25,13 +25,13 @@ namespace Core
         }
         public void ReturnObject(GameObject obj)
         {
-            ObjList.Add(obj);
-            obj.transform.parent = _fatherObj.transform;
             if (obj.TryGetComponent(out IPoolObject poolObject))
             {
                 poolObject.OnDeactivate();
             }
             obj.SetActive(false);
+            obj.transform.SetParent(_fatherObj.transform, true);
+            ObjList.Add(obj);
         }
         public GameObject GetObject()
         {
@@ -39,7 +39,7 @@ namespace Core
             obj = ObjList[0];
             ObjList.RemoveAt(0);
             obj.SetActive(true);
-            obj.transform.parent = null;
+            obj.transform.SetParent(null, true);
             if (obj.TryGetComponent(out IPoolObject poolObject))
             {
                 poolObject.OnActivate();
@@ -68,7 +68,7 @@ namespace Core
                 ResourceManager.Instance.ResourceLoadAsync<GameObject>(_basePath + name, (o) =>
                 {
                     o.name = name; 
-                    callback(o); 
+                    callback.Invoke(o); 
                 });
             }
         }

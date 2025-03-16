@@ -1,45 +1,21 @@
 using UnityEngine;
 using UnityEngine.Events;
-
-/// <summary>
-/// Update Animation Event Type Here
-/// </summary>
-public enum EAnimNotify
-{
-    OnAttackOneStartInput,
-    OnAttackOneEndInput,
-    OnAttackTwoStartInput,
-    OnAttackTwoEndInput,
-    OnAttackThreeStartInput,
-    OnAttackThreeEndInput,
-    OnAttackOneEnd,
-    OnAttackTwoEnd,
-    OnAttackThreeEnd,
-    OnJumpEndStartPreInput,
-    OnJumpEndEnd,
-    OnRunEndStartPreInput,
-    OnRunEndEnd,
-    OnHitEnd,
-    OnBlockStart,
-    OnBlockEnd
-}
-
 public class AnimEventData
 {
-    private UnityAction _attackCallback;
+    private UnityAction _callback;
     
-    public void AddAttackCallback(UnityAction callback)
+    public void AddCallback(UnityAction callback)
     {
-        _attackCallback += callback;
+        _callback += callback;
     }
     
-    public void RemoveAttackCallback(UnityAction callback)
+    public void RemoveCallback(UnityAction callback)
     {
-        _attackCallback -= callback;
+        _callback -= callback;
     }
 
-    public void TriggerAttackCallback()
+    public void TriggerCallback()
     {
-        _attackCallback?.Invoke();
+        _callback?.Invoke();
     }
 }

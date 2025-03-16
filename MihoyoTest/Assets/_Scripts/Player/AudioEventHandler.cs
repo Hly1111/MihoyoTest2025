@@ -8,6 +8,7 @@ public class AudioEventHandler : MonoBehaviour
     [field: SerializeField] public List<AudioClip> IdleVoiceClips { get; private set; }
     [field: SerializeField] public List<AudioClip> ComboAttackVoiceClips { get; private set; }
     [field: SerializeField] public List<AudioClip> ShutDownAttackVoiceClips { get; private set; }
+    [field: SerializeField] public List<AudioClip> HurtVoiceClips { get; private set; }
     
     
     public void PlayAudioClip(AudioClip audioClip)
@@ -37,5 +38,10 @@ public class AudioEventHandler : MonoBehaviour
     public void PlayShutDownAttackVoiceClip()
     {
         AudioManager.Instance.PlaySfx(ShutDownAttackVoiceClips[Random.Range(0, ShutDownAttackVoiceClips.Count)].name);
+    }
+    
+    public void PlayHurtVoiceClip()
+    {
+        AudioManager.Instance.PlaySfx(HurtVoiceClips[Random.Range(0, HurtVoiceClips.Count)].name);
     }
 }

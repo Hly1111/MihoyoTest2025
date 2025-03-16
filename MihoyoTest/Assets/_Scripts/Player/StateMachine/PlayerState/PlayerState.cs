@@ -163,7 +163,7 @@ public class PlayerState : IState
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayerStateMachine.ReusableData.HitDirection = Random.insideUnitCircle;
+            PlayerStateMachine.ReusableData.HitDirection = Random.insideUnitSphere;
             PlayerStateMachine.ChangeState(PlayerStateMachine.HitState);
         }
     }
@@ -181,6 +181,12 @@ public class PlayerState : IState
         if (PlayerStateMachine.Player.LayerUtility.IsGroundLayer(collider.gameObject.layer))
         {
             ContactGroundCallback(collider);
+        }
+
+        if (collider.CompareTag("Projectile"))
+        {
+            PlayerStateMachine.ReusableData.HitDirection = (collider.transform.position - PlayerStateMachine.Player.transform.position).normalized;
+            PlayerStateMachine.ChangeState(PlayerStateMachine.HitState);
         }
     }
     
@@ -207,7 +213,6 @@ public class PlayerState : IState
     
     
     #endregion
-    
     
     #region input callbacks
     

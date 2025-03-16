@@ -27,6 +27,7 @@ public class AnimationData
     
     [SerializeField] private string reflectionParameter = "Reflection";
     [SerializeField] private string blockParameter = "IsBlock";
+    [SerializeField] private string waitForKillParameter = "IsWaitForKill";
     [SerializeField] private string killParameter = "IsKill";
     
     public int GroundParameter { get; private set; }
@@ -51,6 +52,7 @@ public class AnimationData
     
     public int ReflectionParameter { get; private set; }
     public int BlockParameter { get; private set; }
+    public int WaitForKillParameter { get; private set; }
     public int KillParameter { get; private set; }
     
     public void Initialize(Animator animator)
@@ -76,6 +78,7 @@ public class AnimationData
         
         ReflectionParameter = Animator.StringToHash(reflectionParameter);
         BlockParameter = Animator.StringToHash(blockParameter);
+        WaitForKillParameter = Animator.StringToHash(waitForKillParameter);
         KillParameter = Animator.StringToHash(killParameter);
     }
 }

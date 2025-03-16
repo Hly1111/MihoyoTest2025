@@ -9,6 +9,7 @@ public class EnemyAIKnowledge : IDisposable
     public EnemyAIController aiController;
     [field: SerializeField] public EnemyTargetKnowledge targetKnowledge;
     [field: SerializeField] public EnemyPathKnowledge pathKnowledge;
+    [field: SerializeField] public EnemyAttackKnowledge attackKnowledge;
 
     public void Initialize(EnemyAIController enemyAIController)
     {
@@ -19,6 +20,9 @@ public class EnemyAIKnowledge : IDisposable
         
         pathKnowledge = new EnemyPathKnowledge();
         pathKnowledge.Initialize(aiController.transform.root.GetComponent<NavMeshAgent>());
+        
+        attackKnowledge = new EnemyAttackKnowledge();
+        attackKnowledge.Initialize();
     }
 
     
@@ -31,5 +35,8 @@ public class EnemyAIKnowledge : IDisposable
         
         pathKnowledge.Dispose();
         pathKnowledge = null;
+        
+        attackKnowledge.Dispose();
+        attackKnowledge = null;
     }
 }
