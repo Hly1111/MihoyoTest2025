@@ -22,6 +22,10 @@ public class PlayerStateMachine : StateMachine
     public PlayerBlockState BlockState { get; }
     public PlayerWaitForKillState WaitForKillState { get; }
     public PlayerKillState KillState { get; }
+    
+    public PlayerKillEndState KillEndState { get; }
+    
+    public PlayerKillEndPoseState KillEndPoseState { get; }
 
     public PlayerStateMachine(PlayerController player)
     {
@@ -45,6 +49,8 @@ public class PlayerStateMachine : StateMachine
         BlockState = new PlayerBlockState(this);
         WaitForKillState = new PlayerWaitForKillState(this);
         KillState = new PlayerKillState(this);
+        KillEndState = new PlayerKillEndState(this);
+        KillEndPoseState = new PlayerKillEndPoseState(this);
         
         BindAllEvents();
     }
@@ -222,15 +228,24 @@ public class PlayerStateMachine : StateMachine
         KillState.Warp();
     }
     
-    private void AnimEvent_OnKillEnd()
-    {
-        ChangeState(IdleState);
-    }
+    #endregion
     
+    #region KillEndState
     private void AnimEvent_OnKillEffect()
     {
         Player.VfxDataHandler.PlayVfx(EVfxType.Kill);
     }
+    private void AnimEvent_OnKillEnd()
+    {
+        ChangeState(KillEndPoseState);
+    }
+    #endregion
     
+    #region KillEndPoseState
+    
+    private void AnimEvent_OnKillEndPoseEnd()
+    {
+        ChangeState(IdleState);
+    }
     #endregion
 }

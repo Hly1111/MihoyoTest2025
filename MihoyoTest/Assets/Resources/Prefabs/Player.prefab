@@ -15784,6 +15784,37 @@ Transform:
   - {fileID: 7583323020496513799}
   m_Father: {fileID: 5713482907081998659}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3264318509282825784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 796674039353188606}
+  m_Layer: 7
+  m_Name: FinisherEndLookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &796674039353188606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3264318509282825784}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6217934124775397257}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &3276980281691167578
 GameObject:
   m_ObjectHideFlags: 0
@@ -33181,6 +33212,7 @@ Transform:
   - {fileID: 6475850116647400741}
   - {fileID: 87603907960577047}
   - {fileID: 993063935153167959}
+  - {fileID: 796674039353188606}
   m_Father: {fileID: 2207495323042422181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2899290856680493760
@@ -33215,6 +33247,8 @@ MonoBehaviour:
     blockParameter: IsBlock
     waitForKillParameter: IsWaitForKill
     killParameter: IsKill
+    killEndParameter: IsKillEnd
+    killEndPoseParameter: IsKillEndPose
   <CapsuleColliderHandler>k__BackingField:
     <CapsuleColliderDataSO>k__BackingField: {fileID: 11400000, guid: fb981b2b7fb5c5f44920bc0a86717bf9, type: 2}
     <SlopeData>k__BackingField: 0.26
@@ -33238,13 +33272,13 @@ MonoBehaviour:
       - <VfxName>k__BackingField: LighteningImpact
         <SfxName>k__BackingField: shoot_lightning
         <VfxSpawnPoint>k__BackingField: {fileID: 1536181190892421985}
-      - <VfxName>k__BackingField: Attack
+      - <VfxName>k__BackingField: Slash
         <SfxName>k__BackingField: "\u5B89\u6BD4\u653B\u51FB\u53D7\u51FB\u97F32"
         <VfxSpawnPoint>k__BackingField: {fileID: 8357336735007006958}
-      - <VfxName>k__BackingField: Attack
+      - <VfxName>k__BackingField: Slash
         <SfxName>k__BackingField: "\u5B89\u6BD4\u653B\u51FB\u53D7\u51FB\u97F32"
         <VfxSpawnPoint>k__BackingField: {fileID: 7778884285178861195}
-      - <VfxName>k__BackingField: Attack
+      - <VfxName>k__BackingField: Slash
         <SfxName>k__BackingField: "\u5B89\u6BD4\u653B\u51FB\u53D7\u51FB\u97F32"
         <VfxSpawnPoint>k__BackingField: {fileID: 8497699354634204338}
       - <VfxName>k__BackingField: Kill

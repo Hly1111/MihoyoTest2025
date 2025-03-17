@@ -475,81 +475,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &383911755
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 383911756}
-  - component: {fileID: 383911757}
-  m_Layer: 0
-  m_Name: EndKillCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &383911756
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383911755}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.13222623, y: -0.8527812, z: 0.26043248, w: 0.4329613}
-  m_LocalPosition: {x: 6.457931, y: 16.269493, z: 8.33461}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 624255637}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &383911757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383911755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Priority:
-    Enabled: 1
-    m_Value: 10
-  OutputChannel: 1
-  StandbyUpdate: 2
-  m_StreamingVersion: 20241001
-  m_LegacyPriority: 0
-  Target:
-    TrackingTarget: {fileID: 0}
-    LookAtTarget: {fileID: 0}
-    CustomLookAtTarget: 0
-  Lens:
-    FieldOfView: 60.000004
-    OrthographicSize: 5
-    NearClipPlane: 0.05
-    FarClipPlane: 1000
-    Dutch: 0
-    ModeOverride: 0
-    PhysicalProperties:
-      GateFit: 2
-      SensorSize: {x: 21.946, y: 16.002}
-      LensShift: {x: 0, y: 0}
-      FocusDistance: 10
-      Iso: 200
-      ShutterSpeed: 0.005
-      Aperture: 16
-      BladeCount: 5
-      Curvature: {x: 2, y: 11}
-      BarrelClipping: 0.25
-      Anamorphism: 0
-  BlendHint: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1587,6 +1512,14 @@ MonoBehaviour:
     Camera: {fileID: 1351229424}
     ActivateAfter: 0
     MinDuration: 0
+  - FullHash: -1142861903
+    Camera: {fileID: 1351229424}
+    ActivateAfter: 0
+    MinDuration: 0
+  - FullHash: 1440131306
+    Camera: {fileID: 1976457873}
+    ActivateAfter: 0
+    MinDuration: 0
   HashOfParent:
   - Hash: -1005802792
     HashOfParent: 756556552
@@ -1628,6 +1561,10 @@ MonoBehaviour:
     HashOfParent: 854497337
   - Hash: 623075535
     HashOfParent: 854497337
+  - Hash: -1142861903
+    HashOfParent: 854497337
+  - Hash: 1440131306
+    HashOfParent: 854497337
   m_LegacyLookAt: {fileID: 0}
   m_LegacyFollow: {fileID: 0}
 --- !u!4 &624255637
@@ -1645,7 +1582,7 @@ Transform:
   m_Children:
   - {fileID: 1037249361}
   - {fileID: 1351229423}
-  - {fileID: 383911756}
+  - {fileID: 1976457872}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &731726397
@@ -1912,6 +1849,11 @@ MonoBehaviour:
 --- !u!4 &1144736915 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 993063935153167959, guid: 33dccdb19958857428f1b5361430be33, type: 3}
+  m_PrefabInstance: {fileID: 4406991231614153004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1180172712 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 796674039353188606, guid: 33dccdb19958857428f1b5361430be33, type: 3}
   m_PrefabInstance: {fileID: 4406991231614153004}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1224881045
@@ -3203,6 +3145,138 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 4518271488071999701, guid: 33dccdb19958857428f1b5361430be33, type: 3}
   m_PrefabInstance: {fileID: 4406991231614153004}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1976457871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1976457872}
+  - component: {fileID: 1976457873}
+  - component: {fileID: 1976457875}
+  - component: {fileID: 1976457874}
+  m_Layer: 0
+  m_Name: KillEndCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1976457872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976457871}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0039595584, y: 0.9954432, z: -0.047837295, w: -0.0823942}
+  m_LocalPosition: {x: 9.570001, y: 1.35, z: -32.072998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 624255637}
+  m_LocalEulerAnglesHint: {x: 19.508, y: -28.7, z: 0}
+--- !u!114 &1976457873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976457871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 1180172712}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 40
+    OrthographicSize: 5
+    NearClipPlane: 0.3
+    FarClipPlane: 1000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
+--- !u!114 &1976457874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976457871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38bda98361e1de48a4ca2bd86ea3c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Composition:
+    ScreenPosition: {x: 0.38, y: -0.45}
+    DeadZone:
+      Enabled: 0
+      Size: {x: 0.2, y: 0.2}
+    HardLimits:
+      Enabled: 0
+      Size: {x: 0.8, y: 0.8}
+      Offset: {x: 0, y: 0}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0.61, y: 0.44, z: -0.35}
+  Damping: {x: 0.5, y: 0.5}
+  Lookahead:
+    Enabled: 0
+    Time: 0
+    Smoothing: 0
+    IgnoreY: 0
+--- !u!114 &1976457875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976457871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damping: {x: 0.1, y: 0.2, z: 0.3}
+  ShoulderOffset: {x: -0.43, y: -0.36, z: 0.64}
+  VerticalArmLength: 0.4
+  CameraSide: 1
+  CameraDistance: 2.44
+  AvoidObstacles:
+    Enabled: 0
+    CollisionFilter:
+      serializedVersion: 2
+      m_Bits: 1
+    IgnoreTag: 
+    CameraRadius: 0.2
+    DampingIntoCollision: 0
+    DampingFromCollision: 0.5
 --- !u!1 &2005075242
 GameObject:
   m_ObjectHideFlags: 0
@@ -3688,18 +3762,6 @@ PrefabInstance:
     - target: {fileID: 2314327963627694967, guid: 33dccdb19958857428f1b5361430be33, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2899290856680493760, guid: 33dccdb19958857428f1b5361430be33, type: 3}
-      propertyPath: <VfxDataHandler>k__BackingField.<VfxDataDictionary>k__BackingField.values.Array.data[1].<VfxName>k__BackingField
-      value: Slash
-      objectReference: {fileID: 0}
-    - target: {fileID: 2899290856680493760, guid: 33dccdb19958857428f1b5361430be33, type: 3}
-      propertyPath: <VfxDataHandler>k__BackingField.<VfxDataDictionary>k__BackingField.values.Array.data[2].<VfxName>k__BackingField
-      value: Slash
-      objectReference: {fileID: 0}
-    - target: {fileID: 2899290856680493760, guid: 33dccdb19958857428f1b5361430be33, type: 3}
-      propertyPath: <VfxDataHandler>k__BackingField.<VfxDataDictionary>k__BackingField.values.Array.data[3].<VfxName>k__BackingField
-      value: Slash
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

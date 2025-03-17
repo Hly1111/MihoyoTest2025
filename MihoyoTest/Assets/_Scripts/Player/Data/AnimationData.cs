@@ -29,6 +29,8 @@ public class AnimationData
     [SerializeField] private string blockParameter = "IsBlock";
     [SerializeField] private string waitForKillParameter = "IsWaitForKill";
     [SerializeField] private string killParameter = "IsKill";
+    [SerializeField] private string killEndParameter = "IsKillEnd";
+    [SerializeField] private string killEndPoseParameter = "IsKillEndPose";
     
     public int GroundParameter { get; private set; }
     public int MovementParameter { get; private set; }
@@ -54,6 +56,9 @@ public class AnimationData
     public int BlockParameter { get; private set; }
     public int WaitForKillParameter { get; private set; }
     public int KillParameter { get; private set; }
+    public int KillEndParameter { get; private set; }
+    
+    public int KillEndPoseParameter { get; private set; }
     
     public void Initialize(Animator animator)
     {
@@ -80,5 +85,7 @@ public class AnimationData
         BlockParameter = Animator.StringToHash(blockParameter);
         WaitForKillParameter = Animator.StringToHash(waitForKillParameter);
         KillParameter = Animator.StringToHash(killParameter);
+        KillEndParameter = Animator.StringToHash(killEndParameter);
+        KillEndPoseParameter = Animator.StringToHash(killEndPoseParameter);
     }
 }

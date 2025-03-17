@@ -18,7 +18,6 @@ public class PlayerKillState : PlayerReflectionState
     public override void Exit()
     {
         base.Exit();
-        CameraManager.Instance.DeactivateStateCamera();
         StopAnimation(PlayerStateMachine.Player.AnimationData.KillParameter);
     }
 
@@ -34,10 +33,11 @@ public class PlayerKillState : PlayerReflectionState
         var enemy = PlayerStateMachine.ReusableData.TargetEnemy;
         var targetPosition = enemy.EnemyAIKnowledge.killTransform.position;
         PlayerStateMachine.Player.SkinMeshHandler.ShowSkin(false);
-        PlayerStateMachine.Player.transform.root.transform.DOMove(targetPosition, 0.2f).OnComplete(() =>
+        PlayerStateMachine.Player.transform.root.transform.DOMove(targetPosition, 0.12f).OnComplete(() =>
         {
             CameraManager.Instance.ShakeCamera(1f);
             PlayerStateMachine.Player.SkinMeshHandler.ShowSkin(true);
+            PlayerStateMachine.ChangeState(PlayerStateMachine.KillEndState);
             enemy.GetKilled();
         });
     }

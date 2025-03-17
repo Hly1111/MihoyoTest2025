@@ -10,6 +10,7 @@ public class PlayerReflectionState :PlayerAttackState
     public override void Enter()
     {
         base.Enter();
+        PlayerStateMachine.ReusableData.SpeedModifier = 0f;
         StartAnimation(PlayerStateMachine.Player.AnimationData.ReflectionParameter);
     }
 

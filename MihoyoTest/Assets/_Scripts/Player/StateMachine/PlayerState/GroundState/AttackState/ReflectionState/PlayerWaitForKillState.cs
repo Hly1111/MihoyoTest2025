@@ -13,7 +13,6 @@ public class PlayerWaitForKillState : PlayerReflectionState
         base.Enter();
         PlayerStateMachine.ReusableData.TargetEnemy.SetKillState();
         CameraManager.Instance.ActivateStateCamera();
-        PlayerStateMachine.ReusableData.SpeedModifier = 0f;
         StartAnimation(PlayerStateMachine.Player.AnimationData.WaitForKillParameter);
     }
     
