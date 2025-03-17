@@ -11,6 +11,7 @@ public class PlayerAttackOneState : PlayerAttackState
     public override void Enter()
     {
         base.Enter();
+        PlayerStateMachine.ReusableData.AttackIndex = 1;
         AddAttackForce();
         StartAnimation(PlayerStateMachine.Player.AnimationData.AttackOneParameter);
     }
@@ -19,5 +20,10 @@ public class PlayerAttackOneState : PlayerAttackState
     {
         base.Exit();
         StopAnimation(PlayerStateMachine.Player.AnimationData.AttackOneParameter);
+    }
+    
+    public void AttackDoneCallback(InputAction.CallbackContext obj)
+    {
+        PlayerStateMachine.ReusableData.AttackIndex = 2;
     }
 }

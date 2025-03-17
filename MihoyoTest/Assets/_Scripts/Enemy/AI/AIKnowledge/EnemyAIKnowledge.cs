@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class EnemyAIKnowledge : IDisposable
 {
     public EnemyAIController aiController;
+    [field: SerializeField] public Transform killTransform;
     [field: SerializeField] public EnemyTargetKnowledge targetKnowledge;
     [field: SerializeField] public EnemyPathKnowledge pathKnowledge;
     [field: SerializeField] public EnemyAttackKnowledge attackKnowledge;
@@ -14,6 +15,7 @@ public class EnemyAIKnowledge : IDisposable
     public void Initialize(EnemyAIController enemyAIController)
     {
         aiController = enemyAIController;
+        killTransform = aiController.transform.root.Find("KillTransform");
         
         targetKnowledge = new EnemyTargetKnowledge();
         targetKnowledge.Initialize();
@@ -29,6 +31,7 @@ public class EnemyAIKnowledge : IDisposable
     public void Dispose()
     {
         aiController = null;
+        killTransform = null;
         
         targetKnowledge.Dispose();
         targetKnowledge = null;

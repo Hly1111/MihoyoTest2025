@@ -18,7 +18,6 @@ public class EnemyPathPerception : EnemyAIBrain
 
     private void HandleMoveCondition()
     {
-        EnemyAIKnowledge.attackKnowledge.canAttack = false;
         if (EnemyAIKnowledge.pathKnowledge.canMove)
         {
             EnemyAIKnowledge.pathKnowledge.shouldMove = EnemyAIKnowledge.targetKnowledge.isTargetVisible;
@@ -27,7 +26,6 @@ public class EnemyPathPerception : EnemyAIBrain
                 if(EnemyAIKnowledge.targetKnowledge.distance <= EnemyAIKnowledge.aiController.EnemyAIData.PatrolRange)
                 {
                     EnemyAIKnowledge.pathKnowledge.shouldMove = false;
-                    EnemyAIKnowledge.attackKnowledge.canAttack = true;
                 }
             }
         }
@@ -74,7 +72,7 @@ public class EnemyPathPerception : EnemyAIBrain
         return EnemyAIKnowledge.pathKnowledge.navMeshAgent.SetDestination(destination);
     }
     
-    private void SetFaceDirection(Vector3 direction)
+    private void SetFaceDirection(Vector3 direction, float speed = 20)
     {
         EnemyAIKnowledge.aiController.transform.root.forward = Vector3.Lerp(EnemyAIKnowledge.aiController.transform.root.forward, direction, 20 * Time.deltaTime);
     }

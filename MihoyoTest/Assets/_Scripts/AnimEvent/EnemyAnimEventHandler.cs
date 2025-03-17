@@ -2,7 +2,9 @@
 public enum EEnemyAnimNotify
 {
     OnAttack,
-    OnAttackEnd
+    OnAttackEnd,
+    OnDie,
+    OnHitEnd
 }
 
 public class EnemyAnimEventHandler : AnimEventHandler<EEnemyAnimNotify>

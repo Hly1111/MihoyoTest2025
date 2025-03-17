@@ -17,6 +17,7 @@ public class EnemyAIController : MonoBehaviour, IController, IPoolObject
     [field: SerializeField] public EnemyAIData EnemyAIData { get; private set; }
     [field: SerializeField] public EnemyAnimationData EnemyAnimationData { get; private set; }
     [field: SerializeField] public GameObject ProjectilePrefab { get; private set; }
+    [field: SerializeField] public VfxDataHandler VfxDataHandler { get; private set; }
     
     private void Awake()
     {
@@ -81,8 +82,17 @@ public class EnemyAIController : MonoBehaviour, IController, IPoolObject
     {
         _enemyStateMachine.OnTriggerExit(other);
     }
+    
+    public void SetKillState()
+    {
+        EnemyAIKnowledge.attackKnowledge.inKillState = true;
+    }
 
-
+    public void GetKilled()
+    {
+        _enemyStateMachine.ChangeState(_enemyStateMachine.EnemyDieState);
+    }
+    
     #region Debug
     void OnDrawGizmos()
     {

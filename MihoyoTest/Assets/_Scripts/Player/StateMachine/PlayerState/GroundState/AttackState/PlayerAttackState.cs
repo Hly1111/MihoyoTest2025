@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttackState : PlayerGroundState
 {
-    public bool HasAttack;
     protected PlayerAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -23,15 +22,20 @@ public class PlayerAttackState : PlayerGroundState
         
         ResetVelocity();
     }
+    
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (PlayerStateMachine.ReusableData.TargetEnemy)
+        {
+            Vector3 direction = (PlayerStateMachine.ReusableData.TargetEnemy.transform.position - PlayerStateMachine.Player.transform.position).normalized;
+            Rotate(direction, false);
+        }
+    }
 
     protected virtual void AddAttackForce()
     {
         Vector3 attackDirection = PlayerStateMachine.Player.Rigidbody.transform.forward;
         PlayerStateMachine.Player.Rigidbody.AddForce(attackDirection * PlayerStateMachine.ReusableData.AttackForce, ForceMode.Impulse);
-    }
-    
-    public void AttackDoneCallback(InputAction.CallbackContext obj)
-    {
-        HasAttack = true;
     }
 }

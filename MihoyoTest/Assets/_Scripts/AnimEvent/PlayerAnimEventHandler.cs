@@ -29,6 +29,10 @@ public enum EPlayerAnimNotify
     OnAttackOneEffect,
     OnAttackTwoEffect,
     OnAttackThreeEffect,
+    OnKillStartEnd,
+    OnKillGo,
+    OnKillEnd,
+    OnKillEffect
 }
 
 public class PlayerAnimEventHandler : AnimEventHandler<EPlayerAnimNotify>

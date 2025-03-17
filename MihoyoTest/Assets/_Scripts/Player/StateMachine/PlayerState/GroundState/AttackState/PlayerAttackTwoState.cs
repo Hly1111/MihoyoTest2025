@@ -19,4 +19,9 @@ public class PlayerAttackTwoState : PlayerAttackState
         base.Exit();
         StopAnimation(PlayerStateMachine.Player.AnimationData.AttackTwoParameter);
     }
+    
+    public void AttackDoneCallback(InputAction.CallbackContext obj)
+    {
+        PlayerStateMachine.ReusableData.AttackIndex = 3;
+    }
 }

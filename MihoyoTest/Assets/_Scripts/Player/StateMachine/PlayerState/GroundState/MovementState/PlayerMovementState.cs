@@ -30,29 +30,6 @@ public class PlayerMovementState : PlayerGroundState
     
     #endregion
     
-    #region input callbacks
-    protected override void AddInputCallbacks()
-    {
-        base.AddInputCallbacks();
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed += AttackCallback;
-
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed += JumpCallback;
-        
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Reflect.performed += ReflectCallback;
-    }
-
-    protected override void RemoveInputCallbacks()
-    {
-        base.RemoveInputCallbacks();
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed -= AttackCallback;
-        
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed -= JumpCallback;
-        
-        PlayerStateMachine.Player.PlayerInput.GameplayActions.Reflect.performed -= AttackCallback;
-    }
-    
-    #endregion
-    
     private void HandleMovement()
     {
         if (MovementInput == Vector2.zero || PlayerStateMachine.ReusableData.SpeedModifier == 0)

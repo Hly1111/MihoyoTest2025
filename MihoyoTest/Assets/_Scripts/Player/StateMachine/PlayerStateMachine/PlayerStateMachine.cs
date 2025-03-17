@@ -1,8 +1,4 @@
-using System;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : StateMachine
 {
@@ -72,7 +68,7 @@ public class PlayerStateMachine : StateMachine
     private void AnimEvent_OnAttackOneEndInput()
     {
         Player.PlayerInput.GameplayActions.Attack.performed -= AttackOneState.AttackDoneCallback;
-        if (AttackOneState.HasAttack)
+        if (ReusableData.AttackIndex == 2)
         {
             ChangeState(AttackTwoState);
         }
@@ -80,11 +76,10 @@ public class PlayerStateMachine : StateMachine
     
     private void AnimEvent_OnAttackOneEnd()
     {
-        if (!AttackOneState.HasAttack)
+        if (ReusableData.AttackIndex == 1)
         {
             ChangeState(IdleState);
         }
-        AttackOneState.HasAttack = false;
     }
 
     private void AnimEvent_OnAttackOneEffect()
@@ -103,7 +98,7 @@ public class PlayerStateMachine : StateMachine
     private void AnimEvent_OnAttackTwoEndInput()
     {
         Player.PlayerInput.GameplayActions.Attack.performed -= AttackTwoState.AttackDoneCallback;
-        if (AttackTwoState.HasAttack)
+        if (ReusableData.AttackIndex == 3)
         {
             ChangeState(AttackHeavyState);
         }
@@ -111,11 +106,10 @@ public class PlayerStateMachine : StateMachine
     
     private void AnimEvent_OnAttackTwoEnd()
     {
-        if (!AttackTwoState.HasAttack)
+        if (ReusableData.AttackIndex == 2)
         {
             ChangeState(IdleState);
         }
-        AttackTwoState.HasAttack = false;
     }
     
     private void AnimEvent_OnAttackTwoEffect()
@@ -135,7 +129,7 @@ public class PlayerStateMachine : StateMachine
     private void AnimEvent_OnAttackThreeEndInput()
     {
         Player.PlayerInput.GameplayActions.Attack.performed -= AttackHeavyState.AttackDoneCallback;
-        if (AttackHeavyState.HasAttack)
+        if (ReusableData.AttackIndex == 1)
         {
             ChangeState(AttackOneState);
         }
@@ -144,11 +138,10 @@ public class PlayerStateMachine : StateMachine
     
     private void AnimEvent_OnAttackThreeEnd()
     {
-        if (!AttackHeavyState.HasAttack)
+        if (ReusableData.AttackIndex == 3)
         {
             ChangeState(IdleState);
         }
-        AttackHeavyState.HasAttack = false;
     }
     
     private void AnimEvent_OnAttackThreeEffect()
@@ -210,11 +203,33 @@ public class PlayerStateMachine : StateMachine
     
     private void AnimEvent_OnBlockEnd()
     {
-        if(!BlockState.IsBlocked)
-        {
-            ChangeState(IdleState);
-        }
-        BlockState.IsBlocked = false;
+        ChangeState(IdleState);
+    }
+    
+    #endregion
+    
+    #region WaitForKillState
+    private void AnimEvent_OnKillStartEnd()
+    {
+        ChangeState(KillState);
+    }
+    #endregion
+    
+    #region KillState
+    
+    private void AnimEvent_OnKillGo()
+    {
+        KillState.Warp();
+    }
+    
+    private void AnimEvent_OnKillEnd()
+    {
+        ChangeState(IdleState);
+    }
+    
+    private void AnimEvent_OnKillEffect()
+    {
+        Player.VfxDataHandler.PlayVfx(EVfxType.Kill);
     }
     
     #endregion

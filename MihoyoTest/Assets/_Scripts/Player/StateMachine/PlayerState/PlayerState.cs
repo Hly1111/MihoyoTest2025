@@ -43,9 +43,11 @@ public class PlayerState : IState
     protected void RotateTowardsTargetRotation()
     {
         float currentYAngle = PlayerStateMachine.Player.Rigidbody.rotation.eulerAngles.y;
-        if(Mathf.Approximately(currentYAngle, PlayerStateMachine.ReusableData.CurrentTargetRotation.y))
+        float targetYAngle = PlayerStateMachine.ReusableData.CurrentTargetRotation.y;
+        float angleDifference = Mathf.DeltaAngle(currentYAngle, targetYAngle);
+        if (Mathf.Abs(angleDifference) < 0.1f)
             return;
-        float newYAngle = Mathf.SmoothDampAngle(currentYAngle, PlayerStateMachine.ReusableData.CurrentTargetRotation.y, ref PlayerStateMachine.ReusableData.DampedTargetRotationCurrentVelocity.y, PlayerStateMachine.ReusableData.TimeToReachTargetRotation.y);
+        float newYAngle = Mathf.SmoothDampAngle(currentYAngle, targetYAngle, ref PlayerStateMachine.ReusableData.DampedTargetRotationCurrentVelocity.y, PlayerStateMachine.ReusableData.TimeToReachTargetRotation.y);
         PlayerStateMachine.ReusableData.DampedTargetRotationSmoothTime.y += Time.deltaTime;
         Quaternion targetRotation = Quaternion.Euler(0, newYAngle, 0);
         
@@ -61,6 +63,14 @@ public class PlayerState : IState
     protected float Rotate(Vector3 direction)
     {
         float directionAngle = UpdateTargetRotation(direction);
+
+        RotateTowardsTargetRotation();
+        return directionAngle;
+    }
+
+    protected float Rotate(Vector3 direction, bool shouldConsiderCameraRotation)
+    {
+        float directionAngle = UpdateTargetRotation(direction, shouldConsiderCameraRotation);
 
         RotateTowardsTargetRotation();
         return directionAngle;
@@ -160,12 +170,6 @@ public class PlayerState : IState
     public virtual void Update()
     {
         HandleInput();
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            PlayerStateMachine.ReusableData.HitDirection = Random.insideUnitSphere;
-            PlayerStateMachine.ChangeState(PlayerStateMachine.HitState);
-        }
     }
 
     public virtual void FixedUpdate()
@@ -238,7 +242,15 @@ public class PlayerState : IState
 
     protected void AttackCallback(InputAction.CallbackContext obj)
     {
-        PlayerStateMachine.ChangeState(PlayerStateMachine.AttackOneState);
+        if (PlayerStateMachine.ReusableData.CanKill)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.WaitForKillState);
+        }
+        else
+        {
+            PlayerStateMachine.ReusableData.TargetEnemy = PlayerStateMachine.Player.EnemySelectionHandler.GetClosestEnemy( PlayerStateMachine.Player.transform);
+            PlayerStateMachine.ChangeState(PlayerStateMachine.AttackOneState);
+        }
     }
 
     protected void ReflectCallback(InputAction.CallbackContext obj)

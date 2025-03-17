@@ -10,13 +10,14 @@ public class PlayerController : MonoBehaviour, IController
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerAnimEventHandler PlayerAnimEventHandler { get; private set; }
+    public SkinMeshHandler SkinMeshHandler { get; private set; }
     
     [field: SerializeField] public AnimationData AnimationData { get; private set; }
     [field: SerializeField] public CapsuleColliderHandler CapsuleColliderHandler { get; private set; }
     [field: SerializeField] public TriggerColliderUtility TriggerColliderUtility { get; private set; }
     [field: SerializeField] public LayerUtility LayerUtility { get; private set; }
     [field: SerializeField] public PlayerDataSO PlayerData { get; private set; }
-
+    [field: SerializeField] public EnemySelectionHandler EnemySelectionHandler { get; private set; }
     [field: SerializeField] public VfxDataHandler VfxDataHandler { get; private set; }
     
     private PlayerStateMachine _stateMachine;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour, IController
         Rigidbody = transform.root.GetComponentInChildren<Rigidbody>();
         Animator = transform.root.GetComponentInChildren<Animator>();
         PlayerAnimEventHandler = transform.root.GetComponentInChildren<PlayerAnimEventHandler>();
+        SkinMeshHandler = transform.root.GetComponentInChildren<SkinMeshHandler>();
         MainCamera = Camera.main;
         
         _stateMachine = new PlayerStateMachine(this);
@@ -45,7 +47,6 @@ public class PlayerController : MonoBehaviour, IController
     private void Start()
     {
         _stateMachine.ChangeState(_stateMachine.IdleState);
-        UIManager.Instance.ShowPanel<VisualizerPanel>("VisualizerPanel");
     }
     
     private void Update()

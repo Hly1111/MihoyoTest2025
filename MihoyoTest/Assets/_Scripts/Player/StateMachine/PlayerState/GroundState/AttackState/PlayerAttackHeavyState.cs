@@ -20,4 +20,9 @@ public class PlayerAttackHeavyState : PlayerAttackState
         RemovePreInputCallback();
         StopAnimation(PlayerStateMachine.Player.AnimationData.AttackHeavyParameter);
     }
+    
+    public void AttackDoneCallback(InputAction.CallbackContext obj)
+    {
+        PlayerStateMachine.ReusableData.AttackIndex = 1;
+    }
 }

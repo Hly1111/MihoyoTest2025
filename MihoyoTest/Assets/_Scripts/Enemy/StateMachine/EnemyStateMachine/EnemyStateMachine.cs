@@ -1,4 +1,4 @@
-using UnityEngine;
+using Core;
 
 public class EnemyStateMachine : StateMachine
 {
@@ -9,6 +9,10 @@ public class EnemyStateMachine : StateMachine
     
     public EnemyAttackState EnemyAttackState { get; private set; }
     
+    public EnemyDieState EnemyDieState { get; private set; }
+    
+    public EnemyHurtState EnemyHurtState { get; private set; }
+    
     
     public EnemyStateMachine(EnemyAIController enemyAIController)
     {
@@ -17,6 +21,8 @@ public class EnemyStateMachine : StateMachine
         EnemyIdleState = new EnemyIdleState(this);
         EnemyPatrolState = new EnemyPatrolState(this);
         EnemyAttackState = new EnemyAttackState(this);
+        EnemyDieState = new EnemyDieState(this);
+        EnemyHurtState = new EnemyHurtState(this);
         
         BindAllEvents();
     }
@@ -37,6 +43,18 @@ public class EnemyStateMachine : StateMachine
     }
 
     private void AnimEvent_OnAttackEnd()
+    {
+        ChangeState(EnemyIdleState);
+    }
+    
+    private void AnimEvent_OnDie()
+    {
+        ChangeState(EnemyIdleState);
+        var enemyObject = EnemyAIController.transform.root.gameObject;
+        ObjectPool.Instance.ReturnObject(enemyObject.name, enemyObject);
+    }
+
+    private void AnimEvent_OnHitEnd()
     {
         ChangeState(EnemyIdleState);
     }

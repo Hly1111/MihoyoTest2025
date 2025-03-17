@@ -1,3 +1,5 @@
+using System.Collections;
+using Core;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -23,7 +25,15 @@ public class EnemyAttackPerception : EnemyAIBrain
                 {
                         return;
                 }
-                
+                if(EnemyAIKnowledge.attackKnowledge.getBlocked || EnemyAIKnowledge.attackKnowledge.inKillState)
+                {
+                        return;
+                }
+                EnemyAIKnowledge.attackKnowledge.canAttack = false;
+                if (EnemyAIKnowledge.targetKnowledge.distance <= EnemyAIKnowledge.aiController.EnemyAIData.PatrolRange)
+                {
+                        EnemyAIKnowledge.attackKnowledge.canAttack = true;
+                }
                 EnemyAIKnowledge.attackKnowledge.timer += Time.deltaTime;
                 if (EnemyAIKnowledge.attackKnowledge.timer >= EnemyAIKnowledge.aiController.EnemyAIData.MinAttackDuration)
                 {
@@ -39,5 +49,17 @@ public class EnemyAttackPerception : EnemyAIBrain
                 _rand = Random.Range(EnemyAIKnowledge.aiController.EnemyAIData.MinAttackDuration, EnemyAIKnowledge.aiController.EnemyAIData.MaxAttackDuration);
                 EnemyAIKnowledge.attackKnowledge.shouldAttack = false;
                 EnemyAIKnowledge.attackKnowledge.timer = 0;
+        }
+
+        public void GetBlocked()
+        {
+                CommonMono.Instance.StartCoroutine(GetBlockedCoroutine());
+        }
+        
+        private IEnumerator GetBlockedCoroutine()
+        {
+                EnemyAIKnowledge.attackKnowledge.getBlocked = true;
+                yield return new WaitForSeconds(3f);
+                EnemyAIKnowledge.attackKnowledge.getBlocked = false;
         }
 }

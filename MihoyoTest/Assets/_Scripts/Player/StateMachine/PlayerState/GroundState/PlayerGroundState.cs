@@ -40,7 +40,7 @@ public class PlayerGroundState : PlayerState
         }
     }
 
-    private bool IsGroundUnderneath()
+    protected bool IsGroundUnderneath()
     {
         TriggerColliderUtility triggerColliderUtility = PlayerStateMachine.Player.TriggerColliderUtility;
         Vector3 groundColliderCenterInWorldSpace = triggerColliderUtility.Collider.bounds.center;
@@ -53,4 +53,27 @@ public class PlayerGroundState : PlayerState
     {
         return PlayerStateMachine.Player.Rigidbody.linearVelocity;
     }
+    
+    #region input callbacks
+    protected override void AddInputCallbacks()
+    {
+        base.AddInputCallbacks();
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed += AttackCallback;
+
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed += JumpCallback;
+        
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Reflect.performed += ReflectCallback;
+    }
+
+    protected override void RemoveInputCallbacks()
+    {
+        base.RemoveInputCallbacks();
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Attack.performed -= AttackCallback;
+        
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Jump.performed -= JumpCallback;
+        
+        PlayerStateMachine.Player.PlayerInput.GameplayActions.Reflect.performed -= ReflectCallback;
+    }
+    
+    #endregion
 }

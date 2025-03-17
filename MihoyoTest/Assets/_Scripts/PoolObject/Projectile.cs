@@ -14,6 +14,11 @@ public class Projectile : MonoBehaviour,IPoolObject
         rb.isKinematic = true;
     }
     
+    public EnemyAIController GetSource()
+    {
+        return _source;
+    }
+    
     public void Launch(Vector3 direction)
     {
         projectileVFX.Play();

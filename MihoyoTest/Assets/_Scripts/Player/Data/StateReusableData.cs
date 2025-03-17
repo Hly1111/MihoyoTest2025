@@ -2,61 +2,53 @@ using UnityEngine;
 
 public class StateReusableData
 {
-    private float _baseSpeed;
-    private float _speedModifier;
-    
-    private Vector3 _timeToReachTargetRotation;
-    private float _movementDecelerationForce;
-    
-    private Vector3 _jumpForce;
-    private float _jumpModifier;
-    private float _fallLimitSpeed;
-    
-    private float _attackForce;
-    
-    private float _downRaycastDistance;
-    private float _floatForce;
-    
-    private Vector3 _currentTargetRotation;
-    private Vector3 _dampedTargetRotationCurrentVelocity;
-    private Vector3 _dampedTargetRotationSmoothTime;
+    public float BaseSpeed { get; set; }
+    public float SpeedModifier { get; set; }
+    public Vector3 TimeToReachTargetRotation { get; set; }
+    public float MovementDecelerationForce { get; set; }
+    public float JumpModifier { get; set; }
+    public float FallLimitSpeed { get; set; }
+    public float AttackForce { get; set; }
+    public int AttackIndex { get; set; }
+    public float DownRaycastDistance { get; set; }
+    public float FloatForce { get; set; }
+    public Vector3 HitDirection { get; set; }
+    public bool CanKill { get; set; }
+    public EnemyAIController TargetEnemy { get; set; }
 
-    private Vector3 _hitDirection;
-    
-    public StateReusableData(PlayerDataSO playerDataSO)
-    {
-        _baseSpeed = playerDataSO.baseSpeed;
-        _speedModifier = playerDataSO.speedModifier;
-        _timeToReachTargetRotation = playerDataSO.timeToReachTargetRotation;
-        _movementDecelerationForce = playerDataSO.movementDecelerationForce;
-        _jumpForce = playerDataSO.jumpForce;
-        _jumpModifier = playerDataSO.jumpModifier;
-        _fallLimitSpeed = playerDataSO.fallLimitSpeed;
-        _attackForce = playerDataSO.attackForce;
-        _downRaycastDistance = playerDataSO.downRaycastDistance;
-        _floatForce = playerDataSO.floatForce;
-        
-        _currentTargetRotation = Vector3.zero;
-        _dampedTargetRotationCurrentVelocity = Vector3.zero;
-        _dampedTargetRotationSmoothTime = Vector3.zero;
-        
-        _hitDirection = Vector3.zero;
-    }
-    
-    public ref float BaseSpeed => ref _baseSpeed;
-    public ref float SpeedModifier => ref _speedModifier;
-    public ref Vector3 TimeToReachTargetRotation => ref _timeToReachTargetRotation;
-    public ref float MovementDecelerationForce => ref _movementDecelerationForce;
+
     public ref Vector3 JumpForce => ref _jumpForce;
-    public ref float JumpModifier => ref _jumpModifier;
-    public ref float FallLimitSpeed => ref _fallLimitSpeed;
-    public ref float AttackForce => ref _attackForce;
-    public ref float DownRaycastDistance => ref _downRaycastDistance;
-    public ref float FloatForce => ref _floatForce;
+    private Vector3 _jumpForce;
     
     public ref Vector3 CurrentTargetRotation => ref _currentTargetRotation;
-    public ref Vector3 DampedTargetRotationCurrentVelocity => ref _dampedTargetRotationCurrentVelocity;
-    public ref Vector3 DampedTargetRotationSmoothTime => ref _dampedTargetRotationSmoothTime;
+    private Vector3 _currentTargetRotation;
     
-    public ref Vector3 HitDirection => ref _hitDirection;
+    public ref Vector3 DampedTargetRotationSmoothTime => ref _dampedTargetRotationSmoothTime;
+    private Vector3 _dampedTargetRotationSmoothTime;
+    public ref Vector3 DampedTargetRotationCurrentVelocity  => ref _dampedTargetRotationCurrentVelocity;
+    private Vector3 _dampedTargetRotationCurrentVelocity;
+
+    public StateReusableData(PlayerDataSO playerDataSO)
+    {
+        BaseSpeed = playerDataSO.baseSpeed;
+        SpeedModifier = playerDataSO.speedModifier;
+        TimeToReachTargetRotation = playerDataSO.timeToReachTargetRotation;
+        MovementDecelerationForce = playerDataSO.movementDecelerationForce;
+        _jumpForce = playerDataSO.jumpForce;
+        JumpModifier = playerDataSO.jumpModifier;
+        FallLimitSpeed = playerDataSO.fallLimitSpeed;
+        AttackForce = playerDataSO.attackForce;
+        AttackIndex = 0;
+        DownRaycastDistance = playerDataSO.downRaycastDistance;
+        FloatForce = playerDataSO.floatForce;
+        
+        _currentTargetRotation = Vector3.zero;
+        _dampedTargetRotationSmoothTime = Vector3.zero;
+        _dampedTargetRotationCurrentVelocity = Vector3.zero;
+        
+        HitDirection = Vector3.zero;
+        CanKill = false;
+        
+        TargetEnemy = null;
+    }
 }
